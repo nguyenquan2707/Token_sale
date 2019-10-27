@@ -1,4 +1,4 @@
-pragma solidity ^0.5.11;
+pragma solidity ^0.5.8;
 
 // implements on this documentation https://eips.ethereum.org/EIPS/eip-20
 contract DappToken {
