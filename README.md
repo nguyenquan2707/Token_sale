@@ -8,3 +8,5 @@
 4. token.totalSupply().then((i){totalSupply = i;})
 
 5. totalSupply.toNumber() = 1000000
+
+6. truffle test: to test

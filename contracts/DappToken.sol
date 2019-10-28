@@ -2,12 +2,11 @@ pragma solidity ^0.5.8;
 
 // implements on this documentation https://eips.ethereum.org/EIPS/eip-20
 contract DappToken {
-    //Constructor
-    //set the total number of tokens
-    //Read the total number of tokens
-    uint256 public totalSupply; //state variables
-    
-    constructor() public {
-        totalSupply = 1000000;
+    uint256 public totalSupply;
+    mapping(address => uint256) public balanceOf;
+
+    constructor(uint256 _totalSupply) public {
+        balanceOf[msg.sender] = _totalSupply;
+        totalSupply = _totalSupply;
     }
 }
