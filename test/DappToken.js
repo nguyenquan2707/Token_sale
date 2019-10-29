@@ -34,10 +34,20 @@ contract('DappToken', function(accounts) {
     it('test transfer function', function() {
         return DappToken.deployed().then(function(instance){
             tokenInstance = instance;
-            tokenInstance.transfer(accounts[1], 10);
+            return tokenInstance.transfer(accounts[1], 10, {from: accounts[0]});
+        }).then(function(receipt){
+            //test event
+            assert.equal(receipt.logs.length, 1, "an event was triggered");
+            assert.equal(receipt.logs[0].event, "Transfer", "Event name");
+            assert.equal(receipt.logs[0].args._from, accounts[0], "address from");
+            assert.equal(receipt.logs[0].args._to, accounts[1], "address to");
+            assert.equal(receipt.logs[0].args._amount, 10, "amount");
             return tokenInstance.balanceOf(accounts[1]);
         }).then(function(balance){
             assert.equal(balance, 10, "same balance");
+            return tokenInstance.transfer(accounts[1], 999999999999999);
+        }).then(assert.fail).catch(function(error) {
+            assert(error.message.indexOf('revert') >= 0);
         })
     })
 });
