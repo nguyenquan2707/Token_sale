@@ -9,6 +9,9 @@ contract('DappToken', function(accounts) {
             return tokenInstance.name();
         }).then(function(name){
             assert.equal(name, "DappToken", "same name");
+            return tokenInstance.symbol();
+        }).then(function(symbol) {
+            assert.equal(symbol, "DAT", "same symbol");
         })
     })
 
