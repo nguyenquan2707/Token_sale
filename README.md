@@ -10,3 +10,5 @@
 5. totalSupply.toNumber() = 1000000
 
 6. truffle test: to test
+
+7. web3.eth.accounts: to get all accounts
