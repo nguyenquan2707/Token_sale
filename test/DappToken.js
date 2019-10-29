@@ -3,6 +3,16 @@ var DappToken = artifacts.require("./DappToken.sol");
 contract('DappToken', function(accounts) {
     var tokenInstance;
 
+    it('initializes with name and symbol', function() {
+        return DappToken.deployed().then(function(instance) {
+            tokenInstance = instance;
+            return tokenInstance.name();
+        }).then(function(name){
+            assert.equal(name, "DappToken", "same name");
+        })
+    })
+
+
     it('initializes with totalSupply', function() {
         return DappToken.deployed().then(function(instance) {
             tokenInstance = instance;

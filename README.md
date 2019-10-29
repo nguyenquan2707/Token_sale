@@ -12,3 +12,7 @@
 6. truffle test: to test
 
 7. web3.eth.accounts: to get all accounts
+
+8. web3.eth.accounts[0]
+
+9. web3.eth.
