@@ -12,6 +12,9 @@ contract('DappToken', function(accounts) {
             return tokenInstance.symbol();
         }).then(function(symbol) {
             assert.equal(symbol, "DAT", "same symbol");
+            return tokenInstance.standard();
+        }).then(function(standard){
+            assert.equal(standard, "Dapp Token v1.0");
         })
     })
 
@@ -27,4 +30,14 @@ contract('DappToken', function(accounts) {
             assert.equal(adminBalance.toNumber(), 1000000);
         })
     });
+
+    it('test transfer function', function() {
+        return DappToken.deployed().then(function(instance){
+            tokenInstance = instance;
+            tokenInstance.transfer(accounts[1], 10);
+            return tokenInstance.balanceOf(accounts[1]);
+        }).then(function(balance){
+            assert.equal(balance, 10, "same balance");
+        })
+    })
 });
