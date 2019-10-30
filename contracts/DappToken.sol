@@ -19,8 +19,15 @@ contract DappToken {
 
     function transfer(address _to, uint256 _amount) public returns(bool success) {
         require(balanceOf[msg.sender] > _amount, "do not enough token to tranfer");
-        balanceOf[_to] = _amount;
         balanceOf[msg.sender] -= _amount;
+        balanceOf[_to] += _amount;
         emit Transfer(msg.sender, _to, _amount);
+        return true;
+    }
+
+    //msg.sender will keep track _spender
+    //approve, ex: approve _spender on the exchange specific _amount
+    function approve(address _spender, uint256 _amount) public returns (bool success){
+        return true;
     }
 }

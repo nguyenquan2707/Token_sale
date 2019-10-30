@@ -50,4 +50,13 @@ contract('DappToken', function(accounts) {
             assert(error.message.indexOf('revert') >= 0);
         })
     })
+
+    it('test approve function', function() {
+        return DappToken.deployed().then(function(instance){
+            tokenInstance = instance;
+            //call: create transaction without writing into the blockchain,  so it is not
+            // cost the gas
+            return tokenInstance.approve.call(accounts[1], 100);
+        })
+    })
 });
