@@ -66,6 +66,10 @@ contract('DappToken', function(accounts) {
             assert.equal(receipt.logs[0].args._owner, accounts[0], "address from");
             assert.equal(receipt.logs[0].args._spender, accounts[1], "address to");
             assert.equal(receipt.logs[0].args._amount, 100, "amount");
+
+            return tokenInstance.allowance(accounts[0], accounts[1]); // map of map
+        }).then(function(allowance) {
+            assert.equal(allowance.toNumber(), 100, "account0 accept account1 to transfer 100 tokens");
         })
     })
 });

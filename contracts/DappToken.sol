@@ -7,6 +7,7 @@ contract DappToken {
     string public standard = "Dapp Token v1.0";
     uint256 public totalSupply;
     mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
 
     event Transfer(address indexed _from, address indexed _to, uint256 _amount);
 
@@ -30,7 +31,7 @@ contract DappToken {
     //msg.sender will keep track _spender
     //approve, ex: approve _spender on the exchange specific _amount
     function approve(address _spender, uint256 _amount) public returns (bool success){
-        
+        allowance[msg.sender][_spender] = _amount;
         emit Approval(msg.sender, _spender, _amount);
         return true;
     }
