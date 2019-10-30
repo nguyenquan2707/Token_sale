@@ -57,6 +57,15 @@ contract('DappToken', function(accounts) {
             //call: create transaction without writing into the blockchain,  so it is not
             // cost the gas
             return tokenInstance.approve.call(accounts[1], 100);
+        }).then(function(success) {
+            assert.equal(success, true, "return true!");
+            return tokenInstance.approve(accounts[1], 100);
+        }).then(function(receipt){
+            assert.equal(receipt.logs.length, 1, "an event was triggered");
+            assert.equal(receipt.logs[0].event, "Approval", "Event name");
+            assert.equal(receipt.logs[0].args._owner, accounts[0], "address from");
+            assert.equal(receipt.logs[0].args._spender, accounts[1], "address to");
+            assert.equal(receipt.logs[0].args._amount, 100, "amount");
         })
     })
 });

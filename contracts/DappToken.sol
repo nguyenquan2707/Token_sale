@@ -10,6 +10,8 @@ contract DappToken {
 
     event Transfer(address indexed _from, address indexed _to, uint256 _amount);
 
+    event Approval(address indexed _owner, address indexed _spender, uint256 _amount);
+
     constructor(string memory _name, string memory _symbol, uint256 _totalSupply) public {
         balanceOf[msg.sender] = _totalSupply;
         totalSupply = _totalSupply;
@@ -28,6 +30,8 @@ contract DappToken {
     //msg.sender will keep track _spender
     //approve, ex: approve _spender on the exchange specific _amount
     function approve(address _spender, uint256 _amount) public returns (bool success){
+        
+        emit Approval(msg.sender, _spender, _amount);
         return true;
     }
 }
