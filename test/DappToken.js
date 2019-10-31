@@ -76,12 +76,23 @@ contract('DappToken', function(accounts) {
     it('handle delegated token transfers', function() {
         return DappToken.deployed().then(function(instance) {
             tokenInstance = instance;
-            fromAccount = acounts[2];
+            fromAccount = accounts[2];
             toAccount = accounts[3];
             spendingAccount = accounts[4];
 
             //transfer some tokens to fromAccount
+            //accounts[0] will call "transfer" function
             tokenInstance.transfer(fromAccount, 20, {from: accounts[0]});
+        }).then(function(receipt) {
+            //Approve spendingAccount to spend 5 tokens from fromAccount
+            // fromAcount will call "approve" function
+            return tokenInstance.approve(spendingAccount, 5, {from: fromAccount});
+        }).then(function(receipt) {
+            //try to transfer something larger than the  sender's balance
+            //// spendingAccount will call "transferFrom" function 
+            tokenInstance.transferFrom(fromAccount, toAccount, 21, {from:spendingAccount});
+        }).then(assert.fail).catch(function(error){
+            assert(error.message.indexOf('revert') >=0);
         })
     })
 });
