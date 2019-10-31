@@ -72,4 +72,16 @@ contract('DappToken', function(accounts) {
             assert.equal(allowance.toNumber(), 100, "account0 accept account1 to transfer 100 tokens");
         })
     })
+
+    it('handle delegated token transfers', function() {
+        return DappToken.deployed().then(function(instance) {
+            tokenInstance = instance;
+            fromAccount = acounts[2];
+            toAccount = accounts[3];
+            spendingAccount = accounts[4];
+
+            //transfer some tokens to fromAccount
+            tokenInstance.transfer(fromAccount, 20, {from: accounts[0]});
+        })
+    })
 });

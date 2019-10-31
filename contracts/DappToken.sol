@@ -30,9 +30,22 @@ contract DappToken {
 
     //msg.sender will keep track _spender
     //approve, ex: approve _spender on the exchange specific _amount
+    //Theory: account A approve account B to spend C token
     function approve(address _spender, uint256 _amount) public returns (bool success){
-        allowance[msg.sender][_spender] = _amount;
+        allowance[msg.sender][_spender] = _amount;// store amount to allowance mappings
         emit Approval(msg.sender, _spender, _amount);
+        return true;
+    }
+     // _from: accountB in this case
+     // _to: accountC in this case
+     // _amount: number of token we are going to transfer
+    function transferFrom(address _from, address _to, uint256 _amount) public returns(bool success) {
+       //require _from account have enough tokens
+       //require allowance is big enough
+       //change the balance
+       //Update the allowance
+       //call Transfer event:EP20 standard
+
         return true;
     }
 }
