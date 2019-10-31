@@ -82,17 +82,25 @@ contract('DappToken', function(accounts) {
 
             //transfer some tokens to fromAccount
             //accounts[0] will call "transfer" function
-            tokenInstance.transfer(fromAccount, 20, {from: accounts[0]});
+            tokenInstance.transfer(fromAccount, 100, {from: accounts[0]});
         }).then(function(receipt) {
             //Approve spendingAccount to spend 5 tokens from fromAccount
             // fromAcount will call "approve" function
-            return tokenInstance.approve(spendingAccount, 5, {from: fromAccount});
+            return tokenInstance.approve(spendingAccount, 10, {from: fromAccount});
         }).then(function(receipt) {
             //try to transfer something larger than the  sender's balance
             //// spendingAccount will call "transferFrom" function 
-            tokenInstance.transferFrom(fromAccount, toAccount, 21, {from:spendingAccount});
-        }).then(assert.fail).catch(function(error){
-            assert(error.message.indexOf('revert') >=0);
+            tokenInstance.transferFrom(fromAccount, toAccount, 9999, {from: spendingAccount});
+        }).then(assert.fail).catch(function(error) {
+            assert(error.message.indexOf('revert') >= 0, "cannot transfer more than balance");
+            
+            //Try to transfer larger than approve amount
+            return tokenInstance.transferFrom(fromAccount, toAccount, 11, {from: spendingAccount});
+        }).then(assert.fail).catch(function(error) {
+            //assert(error.message.indexOf('revert') >= 0, 'cannot transfer larger than approve amount');
+            return tokenInstance.transferFrom.call(fromAccount, toAccount, 10, {from: spendingAccount});
+        }).then(function(success) {
+            assert.equal(success, true);
         })
     })
 });

@@ -39,13 +39,15 @@ contract DappToken {
      // _from: accountB in this case
      // _to: accountC in this case
      // _amount: number of token we are going to transfer
-    function transferFrom(address _from, address _to, uint256 _amount) public returns(bool success) {
+    function transferFrom(address _from, address _to, uint256 _value) public returns(bool success) {
        //require _from account have enough tokens
+       require(balanceOf[_from] >= _value, "_amount must less than balance");
        //require allowance is big enough
+       require(_value <= allowance[_from][msg.sender], "cannot transfer larger than approve amount");
        //change the balance
        //Update the allowance
        //call Transfer event:EP20 standard
-
+       emit Transfer(_from, _to, _value);
         return true;
     }
 }
