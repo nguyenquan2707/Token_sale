@@ -7,12 +7,35 @@
 
 4. token.totalSupply().then((i){totalSupply = i;})
 
+   token.name() = "DappToken"
+
+    token.symbol() = "DAT"
+
+
+
+
 5. totalSupply.toNumber() = 1000000
 
 6. truffle test: to test
 
-7. web3.eth.accounts: to get all accounts
+7. web3.eth.getAccounts(): to get all accounts
 
-8. web3.eth.accounts[0]
+[ '0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94',
+  '0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b',
+  '0x0F5847F661D4B4f1680B4CE0a4d749a4AeF9689F',
+  '0x94A8d2C111545993EEe9B6A9333a7f57263BFF7d',
+  '0x04FdB0af8D0794A0960308D9F676Ee6b99bcF336',
+  '0xdD53e28Af88d6112CaE80135dAcaf677984d9be1',
+  '0x673FE9F9813d1ad4b40f4a810A525A3F5Ae141AB',
+  '0x1C8d4793cf7C08E437D3F5aC158DE99884ae808E',
+  '0x39cbc3F2A4D46e1d3BDb0E01F09302397E2c080D',
+  '0x2803d6a6A382A5340319CA35723dC832b590520E' ]
 
-9. web3.eth.
+8. get specific address 
+    let address1 = web3.eth.getAccounts().then(f => f[1])
+
+9. test approve, transfer function in development console:
+
+   token.approve("0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b", 1)
+
+   token.transfer("0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b", 1)
