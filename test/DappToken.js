@@ -41,7 +41,7 @@ contract('DappToken', function(accounts) {
             assert.equal(receipt.logs[0].event, "Transfer", "Event name");
             assert.equal(receipt.logs[0].args._from, accounts[0], "address from");
             assert.equal(receipt.logs[0].args._to, accounts[1], "address to");
-            assert.equal(receipt.logs[0].args._amount, 10, "amount");
+            assert.equal(receipt.logs[0].args._value, 10, "amount");
             return tokenInstance.balanceOf(accounts[1]);
         }).then(function(balance){
             assert.equal(balance, 10, "same balance");
@@ -65,7 +65,7 @@ contract('DappToken', function(accounts) {
             assert.equal(receipt.logs[0].event, "Approval", "Event name");
             assert.equal(receipt.logs[0].args._owner, accounts[0], "address from");
             assert.equal(receipt.logs[0].args._spender, accounts[1], "address to");
-            assert.equal(receipt.logs[0].args._amount, 100, "amount");
+            assert.equal(receipt.logs[0].args._value, 100, "amount");
 
             return tokenInstance.allowance(accounts[0], accounts[1]); // map of map
         }).then(function(allowance) {
@@ -90,17 +90,35 @@ contract('DappToken', function(accounts) {
         }).then(function(receipt) {
             //try to transfer something larger than the  sender's balance
             //// spendingAccount will call "transferFrom" function 
-            tokenInstance.transferFrom(fromAccount, toAccount, 9999, {from: spendingAccount});
+            //tokenInstance.transferFrom(fromAccount, toAccount, 9999, {from: spendingAccount});
         }).then(assert.fail).catch(function(error) {
-            assert(error.message.indexOf('revert') >= 0, "cannot transfer more than balance");
+            //assert(error.message.indexOf('revert') >= 0, "cannot transfer more than balance");
             
             //Try to transfer larger than approve amount
             return tokenInstance.transferFrom(fromAccount, toAccount, 11, {from: spendingAccount});
         }).then(assert.fail).catch(function(error) {
-            //assert(error.message.indexOf('revert') >= 0, 'cannot transfer larger than approve amount');
+            assert(error.message.indexOf('revert') >= 0, 'cannot transfer larger than approve amount');
             return tokenInstance.transferFrom.call(fromAccount, toAccount, 10, {from: spendingAccount});
         }).then(function(success) {
             assert.equal(success, true);
+            //this time we actually write change to blockchain by removing call
+            return tokenInstance.transferFrom(fromAccount, toAccount, 10, {from: spendingAccount});
+        }).then(function(receipt){
+             assert.equal(receipt.logs.length, 1, "an event was triggered");
+             assert.equal(receipt.logs[0].event, "Transfer", "Event name");
+             assert.equal(receipt.logs[0].args._from, accounts[2], "address from");
+             assert.equal(receipt.logs[0].args._to, accounts[3], "address to");
+             assert.equal(receipt.logs[0].args._value, 10, "amount");
+             return tokenInstance.balanceOf(fromAccount);
+        }).then(function(fromAccount){
+            assert.equal(fromAccount, 90, "fromAccount decrease by 10");
+            return tokenInstance.balanceOf(toAccount);
+        }).then(function(toAccount){
+            assert.equal(toAccount, 10, "toAccount increase by 10");
+            //spendingAccount allowed to spend some amounts from fromAccount
+            return tokenInstance.allowance(fromAccount, spendingAccount);
+        }).then(function(allowance){
+            assert.equal(allowance, 0, "deducts the amount from the allowance");
         })
     })
 });
