@@ -8,6 +8,9 @@ contract('DappTokenSale', function(accounts) {
             return tokenSaleInstance.address;
         }).then(function(address){
             assert.notEqual(address, 0x0, "have address");
+            return tokenSaleInstance.tokenContract();
+        }).then(function(address) {
+            assert.notEqual(address, 0x0, "have address");
         })
     })
 
