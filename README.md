@@ -34,8 +34,27 @@
 8. get specific address 
     let address1 = web3.eth.getAccounts().then(f => f[1])
 
-9. test approve, transfer function in development console:
+9. test approve, transfer, allowance function in development console:
+
+  token.transfer("0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b", 1)
 
    token.approve("0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b", 1)
 
-   token.transfer("0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b", 1)
+   
+   token.allowance("0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94","0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b") = <BN: 1>
+
+-------------------
+
+   transfer 100 Tokens from accounts[0] to accounts[2]
+    token.transfer("0x0F5847F661D4B4f1680B4CE0a4d749a4AeF9689F", 100, {from: "0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94"})
+
+    approve accounts[4] to spending 10 tokens from accounts[2]
+
+     token.approve("0x04FdB0af8D0794A0960308D9F676Ee6b99bcF336", 10, {from:"0x0F5847F661D4B4f1680B4CE0a4d749a4AeF9689F"})
+
+     delegated transfer from accounts[0] for accounts[4] to spending 10 tokens to accounts[3]
+      token.transferFrom("0x0F5847F661D4B4f1680B4CE0a4d749a4AeF9689F","0x94A8d2C111545993EEe9B6A9333a7f57263BFF7d",10, {from:"0x04FdB0af8D0794A0960308D9F676Ee6b99bcF336"})
+
+      check allowance from accounts[2] and accounts[4]
+       token.allowance("0x0F5847F661D4B4f1680B4CE0a4d749a4AeF9689F","0x04FdB0af8D0794A0960308D9F676Ee6b99bcF336") = <BN: 0>
+
