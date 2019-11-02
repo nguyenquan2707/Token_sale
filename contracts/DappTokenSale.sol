@@ -3,15 +3,29 @@ pragma solidity ^0.5.8;
 import "./DappToken.sol";
 
 contract DappTokenSale {
-    address public admin;
+    address admin; // dont want outside the world know me
     DappToken public tokenContract;
     uint256 public tokenPrice;
-    constructor(DappToken _tokenContract) public {
+    uint256 public tokenSold;
+
+    constructor(DappToken _tokenContract, uint256 _tokenPrice) public {
         admin = msg.sender;
         tokenContract = _tokenContract;
         //Token price
-        tokenPrice = 1000000000000000;
+        tokenPrice = _tokenPrice;
+    }
 
+    //payable: we want someone to be able to send ether via transaction with this function
+    function buyTokens(uint256 _amount) public payable{
+        //require that value is equal to tokens, ex: I want to buy 10 tokens then value is 10* 0.001 ether
 
+        //require that the contact have enough tokens, ex: if this contract have 1  mil, but i want to buy 2 mil then throw exception
+
+        //require transfer is successful, ex: call transfer function and to be sure it return true
+
+        //keep track the number of token sold
+        tokenSold += _amount;
+        //trigger sellEvent
+        //tokenContract.transfer(msg.sender, _amount);
     }
 }
