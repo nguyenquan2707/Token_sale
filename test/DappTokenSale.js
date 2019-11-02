@@ -35,6 +35,9 @@ contract('DappTokenSale', function(accounts) {
             return tokenSaleInstance.tokenSold();
         }).then(function(tokenSold){
             assert.equal(tokenSold, numberOfTokens);
+            return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: 1}); // buy 10 tokens for 1 wei
+        }).then(assert.fail).catch(function(error) {
+           assert(error.message.indexOf('revert' >= 0));
         })
     })
 
