@@ -15,6 +15,8 @@ contract DappTokenSale {
         tokenPrice = _tokenPrice;
     }
 
+    event buyTokensEvent(uint256 _amount, address _buyer);
+
     //payable: we want someone to be able to send ether via transaction with this function
     function buyTokens(uint256 _amount) public payable{
         //require that value is equal to tokens, ex: I want to buy 10 tokens then value is 10* 0.001 ether
@@ -26,6 +28,7 @@ contract DappTokenSale {
         //keep track the number of token sold
         tokenSold += _amount;
         //trigger sellEvent
+        emit buyTokensEvent(_amount, msg.sender);
         //tokenContract.transfer(msg.sender, _amount);
     }
 }

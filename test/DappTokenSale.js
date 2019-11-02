@@ -28,6 +28,10 @@ contract('DappTokenSale', function(accounts) {
             let value = numberOfTokens * tokenPrice; // total amount of wei
             return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: value});
         }).then(function(receipt){
+            assert.equal(receipt.logs.length, 1, "an event was triggered");
+            assert.equal(receipt.logs[0].event, "buyTokensEvent", "Event name");
+            assert.equal(receipt.logs[0].args._amount, 10, "number of Tokens");
+            assert.equal(receipt.logs[0].args._buyer, "0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b", "buyer address");
             return tokenSaleInstance.tokenSold();
         }).then(function(tokenSold){
             assert.equal(tokenSold, numberOfTokens);
