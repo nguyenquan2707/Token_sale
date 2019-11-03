@@ -17,7 +17,7 @@
 6. truffle test: to test
 
 7. web3.eth.getAccounts(): to get all accounts
-```[ '0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94',
+[ '0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94',
 
   '0xbF6AaD669Dc721196b1BdA011d524c2374D6aB3b',
   
@@ -35,7 +35,7 @@
   
   '0x39cbc3F2A4D46e1d3BDb0E01F09302397E2c080D',
   
-  '0x2803d6a6A382A5340319CA35723dC832b590520E' ]```
+  '0x2803d6a6A382A5340319CA35723dC832b590520E' ]
 
 8. get specific address 
     let address1 = web3.eth.getAccounts().then(f => f[1])
