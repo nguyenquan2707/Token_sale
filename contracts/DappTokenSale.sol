@@ -17,6 +17,10 @@ contract DappTokenSale {
 
     event buyTokensEvent(uint256 _amount, address _buyer);
 
+    function multiply(uint256 a, uint256 b) internal pure returns(uint256 success){
+        require(b == 0 || (success = a * b) / b == a, '');
+    }
+
     //payable: we want someone to be able to send ether via transaction with this function
     function buyTokens(uint256 _amount) public payable{
         //require that value is equal to tokens, ex: I want to buy 10 tokens then value is 10* 0.001 ether
@@ -32,7 +36,11 @@ contract DappTokenSale {
         //tokenContract.transfer(msg.sender, _amount);
     }
 
-    function multiply(uint256 a, uint256 b) internal pure returns(uint256 success){
-        require(b == 0 || (success = a * b) / b == a, '');
+    // End Tokens Sale
+    function endSale() public {
+        //Require admin
+        require(msg.sender == admin, 'only admin can call this');
+        //transfer remain tokens to admin
+        selfdestruct(msg.sender);
     }
 }

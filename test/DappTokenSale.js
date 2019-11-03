@@ -37,8 +37,7 @@ contract('DappTokenSale', function(accounts) {
             return tokenInstance.transfer(tokenSaleInstance.address, tokenAvailable, {from: admin});
         }).then(function(receipt){
             numberOfTokens = 10;
-            let value = numberOfTokens * tokenPrice; // total amount of wei
-            return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: value});
+            return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: numberOfTokens * tokenPrice});// total amount of wei
         }).then(function(receipt){
             assert.equal(receipt.logs.length, 1, "an event was triggered");
             assert.equal(receipt.logs[0].event, "buyTokensEvent", "Event name");
@@ -60,6 +59,26 @@ contract('DappTokenSale', function(accounts) {
            return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: numberOfTokens * tokenPrice});
         }).then(assert.fail).catch(function(error){
             assert(error.message.indexOf('revert') >=0, 'cannot purchase more than token available');
+        })
+    })
+
+    it('test endSale function', function(){
+        return DappToken.deployed().then(function(instance) {
+            //grab token first
+            tokenInstance = instance;
+            return DappTokenSale.deployed();
+        }).then(function(instance){
+            //grab tokenSale instance
+            tokenSaleInstance = instance;
+            //Try to end tokens sale by other than admin
+            return tokenSaleInstance.endSale({from: buyer});
+        }).then(assert.fail).catch(function(error){
+            assert(error.message.indexOf('revert') >=0, ' you dont admin');
+            return tokenSaleInstance.endSale({from: admin});
+        }).then(function(receipt){
+            return tokenInstance.balanceOf(admin);
+        }).then(function(balance){
+            assert.equal(balance.toNumber(), 1000000,'remain balane of admin');
         })
     })
 })
