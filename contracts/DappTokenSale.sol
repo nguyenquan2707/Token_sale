@@ -41,6 +41,8 @@ contract DappTokenSale {
         //Require admin
         require(msg.sender == admin, 'only admin can call this');
         //transfer remain tokens to admin
+       // require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))), 'transfer unsold to admin address');
+        //dont using selfdestruct
         selfdestruct(msg.sender);
     }
 }
