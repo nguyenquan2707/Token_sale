@@ -6,7 +6,7 @@ contract('DappTokenSale', function(accounts) {
     let tokenSaleInstance;
     let admin = accounts[0];
     let buyer = accounts[1];
-    // 0.001eth = 1000000000000000
+    // 0.0001eth = 100000000000000
     let tokenPrice = 1000000000000000;
     let tokenAvailable = 7500000; // 75%
     let numberOfTokens;
@@ -35,6 +35,7 @@ contract('DappTokenSale', function(accounts) {
             tokenSaleInstance = instance;
             //Provision token for this contract
             return tokenInstance.transfer(tokenSaleInstance.address, tokenAvailable, {from: admin});
+        }).then(function(receipt){
             numberOfTokens = 10;
             let value = numberOfTokens * tokenPrice; // total amount of wei
             return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: value});
@@ -46,9 +47,19 @@ contract('DappTokenSale', function(accounts) {
             return tokenSaleInstance.tokenSold();
         }).then(function(tokenSold){
             assert.equal(tokenSold, numberOfTokens);
+            return tokenInstance.balanceOf(tokenSaleInstance.address);
+        }).then(function(balance){
+            assert.equal(balance, tokenAvailable - numberOfTokens, 'remain tokens');
+            return tokenInstance.balanceOf(buyer);
+        }).then(function(balance){
+            assert.equal(balance, numberOfTokens, 'increase tokens for buyer');
             return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: 1}); // buy 10 tokens for 1 wei
         }).then(assert.fail).catch(function(error) {
-           assert(error.message.indexOf('revert' >= 0));
+           assert(error.message.indexOf('revert' >= 0), 'dont correct value to token numbers');
+            numberOfTokens = 800000;
+           return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: numberOfTokens * tokenPrice});
+        }).then(assert.fail).catch(function(error){
+            assert(error.message.indexOf('revert') >=0, 'cannot purchase more than token available');
         })
     })
 })
