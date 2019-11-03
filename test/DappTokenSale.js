@@ -1,10 +1,15 @@
+var DappToken = artifacts.require("./DappToken.sol");
 var DappTokenSale = artifacts.require("./DappTokenSale.sol");
 
 contract('DappTokenSale', function(accounts) {
+    let tokenInstance;
     let tokenSaleInstance;
+    let admin = accounts[0];
     let buyer = accounts[1];
     // 0.001eth = 1000000000000000
     let tokenPrice = 1000000000000000;
+    let tokenAvailable = 7500000; // 75%
+    let numberOfTokens;
     it('initializes the contract with the correct values', function() {
         return DappTokenSale.deployed().then(function(instance) {
             tokenSaleInstance = instance;
@@ -21,10 +26,16 @@ contract('DappTokenSale', function(accounts) {
     })
 
     it('test buyToken function', function(){
-        let tokenSaleInstance;
-        let numberOfTokens = 10;
-        return DappTokenSale.deployed().then(function(instance) {
+        return DappToken.deployed().then(function(instance) {
+            //grab token first
+            tokenInstance = instance;
+            return DappTokenSale.deployed();
+        }).then(function(instance){
+            //grab tokenSale instance
             tokenSaleInstance = instance;
+            //Provision token for this contract
+            return tokenInstance.transfer(tokenSaleInstance.address, tokenAvailable, {from: admin});
+            numberOfTokens = 10;
             let value = numberOfTokens * tokenPrice; // total amount of wei
             return tokenSaleInstance.buyTokens(numberOfTokens, {from: buyer, value: value});
         }).then(function(receipt){
@@ -40,5 +51,4 @@ contract('DappTokenSale', function(accounts) {
            assert(error.message.indexOf('revert' >= 0));
         })
     })
-
 })
