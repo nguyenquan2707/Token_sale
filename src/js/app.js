@@ -69,9 +69,9 @@ App = {
             return dappTokenSaleInstance.tokenPrice();
         }).then(function(tokenPrice){
             App.tokenPrice = tokenPrice;
-            console.log('Token price: ' + App.tokenPrice);
+            console.log('Token price: ' + web3.fromWei(App.tokenPrice,'ether'));
             //class 'token-price'
-            $('.token-price').html(App.tokenPrice.toNumber());
+            $('.token-price').html(web3.fromWei(App.tokenPrice, 'ether').toNumber());
         })
     }
 };
