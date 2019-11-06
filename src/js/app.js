@@ -2,6 +2,8 @@ App = {
     web3Provider: null,
     contracts: {},
     account: '0x0',
+    loading: false,
+    tokenPrice: 0,
     init: function() {
         console.log('Loanding init function...........');
         return App.initWeb3();
@@ -36,15 +38,18 @@ App = {
                     console.log('DappToken address: ' + dappToken.address);
                 });
             });
+            App.render();
         });
-        App.render();
     },
 
     render: function() {
         var loader = $('#loader');
         var content = $('#content');
         var accountAddress = $('#accountAddress');
-
+        if(App.loading){
+            return;
+        }
+        loading = true;
         loader.show();
         content.hide();
         //load account data
@@ -54,8 +59,20 @@ App = {
                 accountAddress.html("your account: " + account);
                 console.log("your account " + account);
             }
-        });
+        })
+        App.loading = false;
+        loader.hide();
+        content.show();
 
+        App.contracts.DappTokenSale.deployed().then(function(instance){
+            dappTokenSaleInstance = instance;
+            return dappTokenSaleInstance.tokenPrice();
+        }).then(function(tokenPrice){
+            App.tokenPrice = tokenPrice;
+            console.log('Token price: ' + App.tokenPrice);
+            //class 'token-price'
+            $('.token-price').html(App.tokenPrice.toNumber());
+        })
     }
 };
 
