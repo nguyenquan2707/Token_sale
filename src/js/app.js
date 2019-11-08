@@ -4,6 +4,8 @@ App = {
     account: '0x0',
     loading: false,
     tokenPrice: 0,
+    tokenSold: 0,
+    tokenAvailable: 750000,
     init: function() {
         console.log('Loanding init function...........');
         return App.initWeb3();
@@ -72,6 +74,12 @@ App = {
             console.log('Token price: ' + web3.fromWei(App.tokenPrice,'ether'));
             //class 'token-price'
             $('.token-price').html(web3.fromWei(App.tokenPrice, 'ether').toNumber());
+            return dappTokenSaleInstance.tokenSold();
+        }).then(function(tokenSold){
+            App.tokenSold = tokenSold.toNumber();
+            console.log('Token sold: ' + App.tokenSold);
+            $('.tokens-sold').html(App.tokenSold);
+            $('.tokens-available').html(App.tokenAvailable);
         })
     }
 };
