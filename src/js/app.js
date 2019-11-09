@@ -75,11 +75,17 @@ App = {
             //class 'token-price'
             $('.token-price').html(web3.fromWei(App.tokenPrice, 'ether').toNumber());
             return dappTokenSaleInstance.tokenSold();
-        }).then(function(tokenSold){
-            App.tokenSold = tokenSold.toNumber();
-            console.log('Token sold: ' + App.tokenSold);
-            $('.tokens-sold').html(App.tokenSold);
+        }).then(function(tokensSold){
+            //App.tokensSold = tokensSold.toNumber();
+            App.tokensSold = 200000;
+            console.log('Token sold: ' + App.tokensSold);
+            $('.tokens-sold').html(App.tokensSold);
             $('.tokens-available').html(App.tokenAvailable);
+
+            var progressPercent = (App.tokensSold / App.tokenAvailable)*100;
+            console.log('progressPercent: ' + progressPercent);
+            $('#progress').css('width', progressPercent + '%');
+
         })
     }
 };
