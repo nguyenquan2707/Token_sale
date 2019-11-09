@@ -3,7 +3,7 @@ App = {
     contracts: {},
     account: '0x0',
     loading: false,
-    tokenPrice: 0,
+    tokenPrice: 1000000000000000, 
     tokenSold: 0,
     tokenAvailable: 750000,
     init: function() {
@@ -62,9 +62,6 @@ App = {
                 console.log("your account " + account);
             }
         })
-        App.loading = false;
-        loader.hide();
-        content.show();
 
         App.contracts.DappTokenSale.deployed().then(function(instance){
             dappTokenSaleInstance = instance;
@@ -92,8 +89,31 @@ App = {
             }).then(function(balance){
                 console.log('balance: ' + balance);
                 $('.dapp-balance').html(balance.toNumber());
+
+                App.loading = false;
+                loader.hide();
+                content.show();
             })
         })
+    },
+
+    buyTokens: function() {
+        var loader = $('#loader');
+        var content = $('#content');
+        loader.show();
+        content.hide();
+
+        var numberOfToken = $('#numberOfToken').val();
+        App.contracts.DappTokenSale.deployed().then(function(instance) {
+            dappTokenSaleInstance = instance;
+            return dappTokenSaleInstance.buyTokens(numberOfToken,
+                { from:App.account, 
+                  value: numberOfToken * App.tokenPrice,
+                  gas: 500000 });
+        }).then(function(result){
+
+        })
+
     }
 };
 
