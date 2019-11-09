@@ -76,8 +76,8 @@ App = {
             $('.token-price').html(web3.fromWei(App.tokenPrice, 'ether').toNumber());
             return dappTokenSaleInstance.tokenSold();
         }).then(function(tokensSold){
-            //App.tokensSold = tokensSold.toNumber();
-            App.tokensSold = 200000;
+            App.tokensSold = tokensSold.toNumber();
+            //App.tokensSold = 200000;
             console.log('Token sold: ' + App.tokensSold);
             $('.tokens-sold').html(App.tokensSold);
             $('.tokens-available').html(App.tokenAvailable);
@@ -86,6 +86,13 @@ App = {
             console.log('progressPercent: ' + progressPercent);
             $('#progress').css('width', progressPercent + '%');
 
+            App.contracts.DappToken.deployed().then(function(instance){
+                dappToken = instance;
+                return dappToken.balanceOf(App.account);
+            }).then(function(balance){
+                console.log('balance: ' + balance);
+                $('.dapp-balance').html(balance.toNumber());
+            })
         })
     }
 };
