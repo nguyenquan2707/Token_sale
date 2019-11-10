@@ -115,8 +115,24 @@ App = {
             $('form').trigger('reset');
             loader.hide();
             content.show();
+            App.listenForBuytokens();
         })
 
+    },
+    //Listen for events emitted from the contract
+    listenForBuytokens: function() {
+        App.contracts.DappTokenSale.deployed().then(function(instance){
+            dappTokenSaleInstance = instance;
+            var numberOfToken = $('#numberOfToken').val();
+            return dappTokenSaleInstance.buyTokensEvent({}, 
+                { 
+                    fromBlock: 0,
+                    toBlock: 'latest',
+                }).watch(function(err, event){
+                    console.log('event trigger: ' + event);
+                    App.render();
+                })
+        })
     }
 };
 
