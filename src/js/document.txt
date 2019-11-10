@@ -1,0 +1,9 @@
+#Transfer in truffle console 
+
+1. Truffle console
+2. DappTokenSale.deployed().then(function(i){tokenSale=i;})
+3. DappToken.deployed().then(function(i){token=i;})
+4. var admin = '0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94'
+5. token.transfer(tokenSale.address, 750000, {from: admin})
+6. check balance: token.balanceOf('0xEd86D2C87a42Bf3031aBB85b210a9946b82E8B94') = 250000
+                  token.balanceOf('0x47De81F5843da083D5B9DB39Eb242beBBB4a7853') = 750000, address of tokenSale contract                 

@@ -106,12 +106,15 @@ App = {
         var numberOfToken = $('#numberOfToken').val();
         App.contracts.DappTokenSale.deployed().then(function(instance) {
             dappTokenSaleInstance = instance;
+            console.log('number of tokens: ' + numberOfToken*App.tokenPrice);
             return dappTokenSaleInstance.buyTokens(numberOfToken,
                 { from:App.account, 
                   value: numberOfToken * App.tokenPrice,
                   gas: 500000 });
         }).then(function(result){
-
+            $('form').trigger('reset');
+            loader.hide();
+            content.show();
         })
 
     }

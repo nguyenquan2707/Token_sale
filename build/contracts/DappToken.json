@@ -5410,12 +5410,12 @@
         }
       },
       "links": {},
-      "address": "0xf517EC12B67A355380d6e0981F49FA62b33EB4bB",
-      "transactionHash": "0x56d49fb64e79d33dc3de159b926e524c0ec96ada5d1329e43c327ef2ca2c6a74"
+      "address": "0xd8946b9e7cD97465b2c48B40BC2adDc9afe2dbDf",
+      "transactionHash": "0xd0435d3c7c8d9fe67999702868c0712ad4aed9e223b625152a6031fb50efb323"
     }
   },
   "schemaVersion": "3.0.17",
-  "updatedAt": "2019-11-03T09:40:18.720Z",
+  "updatedAt": "2019-11-09T16:12:48.893Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
