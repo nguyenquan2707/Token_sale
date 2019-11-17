@@ -4,3 +4,13 @@
 
 3. project start at http://localhost:3000/
 
+-----------------------------
+connect to Rinkeby:
+1. install Geth
+2. Open Windown PowerShell and start Geth with command 'geth --rinkeby'
+3. Open new Windown PowerShell and start geth console 'geth attach'
+4. check synch: 'eth.syncing'
+
+--------------
+
+
