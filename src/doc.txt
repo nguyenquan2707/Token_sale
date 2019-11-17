@@ -12,5 +12,9 @@ connect to Rinkeby:
 4. check synch: 'eth.syncing'
 
 --------------
+Create new account:
+1. geth --rinkeby account new
+    enter password
+2. we will get account address
 
 
