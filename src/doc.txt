@@ -17,4 +17,16 @@ Create new account:
     enter password
 2. we will get account address
 
+---------------
+unclock account: 
+1. geth attach
+2. personal.unlockAccount(eth.accounts[0], null, 1200) // null is password, 1200 is time of unlock in second
+---------------
+deploy smart contract to rinkeby network
+1.truffle migrate --reset --compile-all --network rinkeby
+2.truffle will create two new address of smart contracts (DappToken and DappTokenSale) 
+that's deployed to rinkeby network. it is different ganache network.
+
+
+
 

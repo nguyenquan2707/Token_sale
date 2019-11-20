@@ -3815,13 +3815,12 @@
         }
       },
       "links": {},
-      "address": "0x47De81F5843da083D5B9DB39Eb242beBBB4a7853",
-      "transactionHash": "0x08fdf6a3592ecde97daf0e185317b728b20bf8076798f6a1c901e272929575f8"
+      "address": "0x70792c263952CB1eABc188c6EFa93281f849BdDD",
+      "transactionHash": "0x9dc79e4f0419e9703764552e4c3886a4fe82f09d2b2aeaa83b42f1f509fadd39"
     }
   },
   "schemaVersion": "3.0.17",
-  "updatedAt": "2019-11-09T16:12:48.901Z",
-  "networkType": "ethereum",
+  "updatedAt": "2019-11-20T06:54:54.827Z",
   "devdoc": {
     "methods": {}
   },
